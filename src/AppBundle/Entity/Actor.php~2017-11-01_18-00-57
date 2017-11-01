@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Pais
+ * Actor
  *
- * @ORM\Table(name="pais")
+ * @ORM\Table(name="actor")
  * @ORM\Entity
  */
-class Pais
+class Actor
 {
     /**
      * @var integer
@@ -24,23 +24,41 @@ class Pais
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
+     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
     private $nombre;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="pais")
+     * @ORM\Column(name="ano_nacimiento", type="integer", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $peliculas;
+    private $ano_nacimiento;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Actor", mappedBy="pais")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", inversedBy="actors")
+     * @ORM\JoinTable(name="actor_pelicula",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="actor_id", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="pelicula_id", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
      */
-    private $actor;
+    private $peliculas;
+
+    /**
+     * @var \AppBundle\Entity\Pais
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="actors")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
+     * })
+     */
+    private $pais;
 
     /**
      * Constructor
@@ -48,7 +66,6 @@ class Pais
     public function __construct()
     {
         $this->peliculas = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->actor = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -66,7 +83,7 @@ class Pais
      *
      * @param string $nombre
      *
-     * @return Pais
+     * @return Actor
      */
     public function setNombre($nombre)
     {
@@ -86,11 +103,35 @@ class Pais
     }
 
     /**
+     * Set anoNacimiento
+     *
+     * @param integer $anoNacimiento
+     *
+     * @return Actor
+     */
+    public function setAnoNacimiento($anoNacimiento)
+    {
+        $this->ano_nacimiento = $anoNacimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get anoNacimiento
+     *
+     * @return integer
+     */
+    public function getAnoNacimiento()
+    {
+        return $this->ano_nacimiento;
+    }
+
+    /**
      * Add pelicula
      *
      * @param \AppBundle\Entity\Pelicula $pelicula
      *
-     * @return Pais
+     * @return Actor
      */
     public function addPelicula(\AppBundle\Entity\Pelicula $pelicula)
     {
@@ -120,37 +161,27 @@ class Pais
     }
 
     /**
-     * Add actor
+     * Set pais
      *
-     * @param \AppBundle\Entity\Actor $actor
+     * @param \AppBundle\Entity\Pais $pais
      *
-     * @return Pais
+     * @return Actor
      */
-    public function addActor(\AppBundle\Entity\Actor $actor)
+    public function setPais(\AppBundle\Entity\Pais $pais = null)
     {
-        $this->actor[] = $actor;
+        $this->pais = $pais;
 
         return $this;
     }
 
     /**
-     * Remove actor
+     * Get pais
      *
-     * @param \AppBundle\Entity\Actor $actor
+     * @return \AppBundle\Entity\Pais
      */
-    public function removeActor(\AppBundle\Entity\Actor $actor)
+    public function getPais()
     {
-        $this->actor->removeElement($actor);
-    }
-
-    /**
-     * Get actor
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getActor()
-    {
-        return $this->actor;
+        return $this->pais;
     }
 }
 

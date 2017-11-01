@@ -47,20 +47,20 @@ class Pelicula
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="peliculas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pelicula_pais_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
      * })
      */
-    private $pelicula_pais;
+    private $pais;
 
     /**
      * @var \AppBundle\Entity\Categoria
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categoria", inversedBy="peliculas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pelicula_categoria_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * })
      */
-    private $pelicula_categoria;
+    private $categoria;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -75,14 +75,14 @@ class Pelicula
      *   }
      * )
      */
-    private $pelicula_idioma;
+    private $idioma;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->pelicula_idioma = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idioma = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -168,85 +168,85 @@ class Pelicula
     }
 
     /**
-     * Set peliculaPais
+     * Set pais
      *
-     * @param \AppBundle\Entity\Pais $peliculaPais
+     * @param \AppBundle\Entity\Pais $pais
      *
      * @return Pelicula
      */
-    public function setPeliculaPais(\AppBundle\Entity\Pais $peliculaPais = null)
+    public function setPais(\AppBundle\Entity\Pais $pais = null)
     {
-        $this->pelicula_pais = $peliculaPais;
+        $this->pais = $pais;
 
         return $this;
     }
 
     /**
-     * Get peliculaPais
+     * Get pais
      *
      * @return \AppBundle\Entity\Pais
      */
-    public function getPeliculaPais()
+    public function getPais()
     {
-        return $this->pelicula_pais;
+        return $this->pais;
     }
 
     /**
-     * Set peliculaCategoria
+     * Set categoria
      *
-     * @param \AppBundle\Entity\Categoria $peliculaCategoria
+     * @param \AppBundle\Entity\Categoria $categoria
      *
      * @return Pelicula
      */
-    public function setPeliculaCategoria(\AppBundle\Entity\Categoria $peliculaCategoria = null)
+    public function setCategoria(\AppBundle\Entity\Categoria $categoria = null)
     {
-        $this->pelicula_categoria = $peliculaCategoria;
+        $this->categoria = $categoria;
 
         return $this;
     }
 
     /**
-     * Get peliculaCategoria
+     * Get categoria
      *
      * @return \AppBundle\Entity\Categoria
      */
-    public function getPeliculaCategoria()
+    public function getCategoria()
     {
-        return $this->pelicula_categoria;
+        return $this->categoria;
     }
 
     /**
-     * Add peliculaIdioma
+     * Add idioma
      *
-     * @param \AppBundle\Entity\Idioma $peliculaIdioma
+     * @param \AppBundle\Entity\Idioma $idioma
      *
      * @return Pelicula
      */
-    public function addPeliculaIdioma(\AppBundle\Entity\Idioma $peliculaIdioma)
+    public function addIdioma(\AppBundle\Entity\Idioma $idioma)
     {
-        $this->pelicula_idioma[] = $peliculaIdioma;
+        $this->idioma[] = $idioma;
 
         return $this;
     }
 
     /**
-     * Remove peliculaIdioma
+     * Remove idioma
      *
-     * @param \AppBundle\Entity\Idioma $peliculaIdioma
+     * @param \AppBundle\Entity\Idioma $idioma
      */
-    public function removePeliculaIdioma(\AppBundle\Entity\Idioma $peliculaIdioma)
+    public function removeIdioma(\AppBundle\Entity\Idioma $idioma)
     {
-        $this->pelicula_idioma->removeElement($peliculaIdioma);
+        $this->idioma->removeElement($idioma);
     }
 
     /**
-     * Get peliculaIdioma
+     * Get idioma
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPeliculaIdioma()
+    public function getIdioma()
     {
-        return $this->pelicula_idioma;
+        return $this->idioma;
     }
 }
 

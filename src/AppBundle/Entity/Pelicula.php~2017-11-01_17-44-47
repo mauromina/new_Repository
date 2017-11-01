@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Actor
+ * Pelicula
  *
- * @ORM\Table(name="actor")
+ * @ORM\Table(name="pelicula")
  * @ORM\Entity
  */
-class Actor
+class Pelicula
 {
     /**
      * @var integer
@@ -29,36 +29,29 @@ class Actor
     private $nombre;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="ano_nacimiento", type="integer", precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="resumen", type="text", precision=0, scale=0, nullable=false, unique=false)
      */
-    private $ano_nacimiento;
+    private $resumen;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var string
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="actors")
+     * @ORM\Column(name="url_trailer", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
-    private $peliculas;
+    private $url_trailer;
 
     /**
      * @var \AppBundle\Entity\Pais
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="actors")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="peliculas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
      * })
      */
     private $pais;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->peliculas = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -75,7 +68,7 @@ class Actor
      *
      * @param string $nombre
      *
-     * @return Actor
+     * @return Pelicula
      */
     public function setNombre($nombre)
     {
@@ -95,61 +88,51 @@ class Actor
     }
 
     /**
-     * Set anoNacimiento
+     * Set resumen
      *
-     * @param integer $anoNacimiento
+     * @param string $resumen
      *
-     * @return Actor
+     * @return Pelicula
      */
-    public function setAnoNacimiento($anoNacimiento)
+    public function setResumen($resumen)
     {
-        $this->ano_nacimiento = $anoNacimiento;
+        $this->resumen = $resumen;
 
         return $this;
     }
 
     /**
-     * Get anoNacimiento
+     * Get resumen
      *
-     * @return integer
+     * @return string
      */
-    public function getAnoNacimiento()
+    public function getResumen()
     {
-        return $this->ano_nacimiento;
+        return $this->resumen;
     }
 
     /**
-     * Add pelicula
+     * Set urlTrailer
      *
-     * @param \AppBundle\Entity\Pelicula $pelicula
+     * @param string $urlTrailer
      *
-     * @return Actor
+     * @return Pelicula
      */
-    public function addPelicula(\AppBundle\Entity\Pelicula $pelicula)
+    public function setUrlTrailer($urlTrailer)
     {
-        $this->peliculas[] = $pelicula;
+        $this->url_trailer = $urlTrailer;
 
         return $this;
     }
 
     /**
-     * Remove pelicula
+     * Get urlTrailer
      *
-     * @param \AppBundle\Entity\Pelicula $pelicula
+     * @return string
      */
-    public function removePelicula(\AppBundle\Entity\Pelicula $pelicula)
+    public function getUrlTrailer()
     {
-        $this->peliculas->removeElement($pelicula);
-    }
-
-    /**
-     * Get peliculas
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPeliculas()
-    {
-        return $this->peliculas;
+        return $this->url_trailer;
     }
 
     /**
@@ -157,7 +140,7 @@ class Actor
      *
      * @param \AppBundle\Entity\Pais $pais
      *
-     * @return Actor
+     * @return Pelicula
      */
     public function setPais(\AppBundle\Entity\Pais $pais = null)
     {

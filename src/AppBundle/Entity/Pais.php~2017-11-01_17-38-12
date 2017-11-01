@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Idioma
+ * Pais
  *
- * @ORM\Table(name="idioma")
+ * @ORM\Table(name="pais")
  * @ORM\Entity
  */
-class Idioma
+class Pais
 {
     /**
      * @var integer
@@ -24,23 +24,23 @@ class Idioma
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
+     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
      */
     private $nombre;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="idiomas")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pais", mappedBy="pelicula")
      */
-    private $idiomas_peliculas;
+    private $pais;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->idiomas_peliculas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pais = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -58,7 +58,7 @@ class Idioma
      *
      * @param string $nombre
      *
-     * @return Idioma
+     * @return Pais
      */
     public function setNombre($nombre)
     {
@@ -78,37 +78,37 @@ class Idioma
     }
 
     /**
-     * Add idiomasPelicula
+     * Add pai
      *
-     * @param \AppBundle\Entity\Pelicula $idiomasPelicula
+     * @param \AppBundle\Entity\Pais $pai
      *
-     * @return Idioma
+     * @return Pais
      */
-    public function addIdiomasPelicula(\AppBundle\Entity\Pelicula $idiomasPelicula)
+    public function addPai(\AppBundle\Entity\Pais $pai)
     {
-        $this->idiomas_peliculas[] = $idiomasPelicula;
+        $this->pais[] = $pai;
 
         return $this;
     }
 
     /**
-     * Remove idiomasPelicula
+     * Remove pai
      *
-     * @param \AppBundle\Entity\Pelicula $idiomasPelicula
+     * @param \AppBundle\Entity\Pais $pai
      */
-    public function removeIdiomasPelicula(\AppBundle\Entity\Pelicula $idiomasPelicula)
+    public function removePai(\AppBundle\Entity\Pais $pai)
     {
-        $this->idiomas_peliculas->removeElement($idiomasPelicula);
+        $this->pais->removeElement($pai);
     }
 
     /**
-     * Get idiomasPeliculas
+     * Get pais
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdiomasPeliculas()
+    public function getPais()
     {
-        return $this->idiomas_peliculas;
+        return $this->pais;
     }
 }
 

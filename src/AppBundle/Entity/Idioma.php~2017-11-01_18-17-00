@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Pais
+ * Idioma
  *
- * @ORM\Table(name="pais")
+ * @ORM\Table(name="idioma")
  * @ORM\Entity
  */
-class Pais
+class Idioma
 {
     /**
      * @var integer
@@ -24,23 +24,24 @@ class Pais
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
+     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
     private $nombre;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="pais")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", inversedBy="idiomas")
+     * @ORM\JoinTable(name="idioma_pelicula",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="idioma_id", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="pelicula_id", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
      */
     private $peliculas;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Actor", mappedBy="pais")
-     */
-    private $actor;
 
     /**
      * Constructor
@@ -48,7 +49,6 @@ class Pais
     public function __construct()
     {
         $this->peliculas = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->actor = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -66,7 +66,7 @@ class Pais
      *
      * @param string $nombre
      *
-     * @return Pais
+     * @return Idioma
      */
     public function setNombre($nombre)
     {
@@ -90,7 +90,7 @@ class Pais
      *
      * @param \AppBundle\Entity\Pelicula $pelicula
      *
-     * @return Pais
+     * @return Idioma
      */
     public function addPelicula(\AppBundle\Entity\Pelicula $pelicula)
     {
@@ -117,40 +117,6 @@ class Pais
     public function getPeliculas()
     {
         return $this->peliculas;
-    }
-
-    /**
-     * Add actor
-     *
-     * @param \AppBundle\Entity\Actor $actor
-     *
-     * @return Pais
-     */
-    public function addActor(\AppBundle\Entity\Actor $actor)
-    {
-        $this->actor[] = $actor;
-
-        return $this;
-    }
-
-    /**
-     * Remove actor
-     *
-     * @param \AppBundle\Entity\Actor $actor
-     */
-    public function removeActor(\AppBundle\Entity\Actor $actor)
-    {
-        $this->actor->removeElement($actor);
-    }
-
-    /**
-     * Get actor
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getActor()
-    {
-        return $this->actor;
     }
 }
 
