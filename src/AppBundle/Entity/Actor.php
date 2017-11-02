@@ -36,21 +36,29 @@ class Actor
     private $ano_nacimiento;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="actors")
-     */
-    private $peliculas;
-
-    /**
      * @var \AppBundle\Entity\Pais
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="actors")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="actores")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
      * })
      */
     private $pais;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", inversedBy="actores")
+     * @ORM\JoinTable(name="actor_pelicula",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="actor_id", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="pelicula_id", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
+     */
+    private $peliculas;
 
     /**
      * Constructor
@@ -119,6 +127,30 @@ class Actor
     }
 
     /**
+     * Set pais
+     *
+     * @param \AppBundle\Entity\Pais $pais
+     *
+     * @return Actor
+     */
+    public function setPais(\AppBundle\Entity\Pais $pais = null)
+    {
+        $this->pais = $pais;
+
+        return $this;
+    }
+
+    /**
+     * Get pais
+     *
+     * @return \AppBundle\Entity\Pais
+     */
+    public function getPais()
+    {
+        return $this->pais;
+    }
+
+    /**
      * Add pelicula
      *
      * @param \AppBundle\Entity\Pelicula $pelicula
@@ -150,30 +182,6 @@ class Actor
     public function getPeliculas()
     {
         return $this->peliculas;
-    }
-
-    /**
-     * Set pais
-     *
-     * @param \AppBundle\Entity\Pais $pais
-     *
-     * @return Actor
-     */
-    public function setPais(\AppBundle\Entity\Pais $pais = null)
-    {
-        $this->pais = $pais;
-
-        return $this;
-    }
-
-    /**
-     * Get pais
-     *
-     * @return \AppBundle\Entity\Pais
-     */
-    public function getPais()
-    {
-        return $this->pais;
     }
 }
 

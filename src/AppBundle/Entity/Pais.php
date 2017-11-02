@@ -24,7 +24,7 @@ class Pais
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=true)
+     * @ORM\Column(name="nombre", type="string", length=255, precision=0, scale=0, nullable=false, unique=false)
      */
     private $nombre;
 
@@ -40,7 +40,7 @@ class Pais
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Actor", mappedBy="pais")
      */
-    private $actor;
+    private $actores;
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class Pais
     public function __construct()
     {
         $this->peliculas = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->actor = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actores = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -120,37 +120,37 @@ class Pais
     }
 
     /**
-     * Add actor
+     * Add actore
      *
-     * @param \AppBundle\Entity\Actor $actor
+     * @param \AppBundle\Entity\Actor $actore
      *
      * @return Pais
      */
-    public function addActor(\AppBundle\Entity\Actor $actor)
+    public function addActore(\AppBundle\Entity\Actor $actore)
     {
-        $this->actor[] = $actor;
+        $this->actores[] = $actore;
 
         return $this;
     }
 
     /**
-     * Remove actor
+     * Remove actore
      *
-     * @param \AppBundle\Entity\Actor $actor
+     * @param \AppBundle\Entity\Actor $actore
      */
-    public function removeActor(\AppBundle\Entity\Actor $actor)
+    public function removeActore(\AppBundle\Entity\Actor $actore)
     {
-        $this->actor->removeElement($actor);
+        $this->actores->removeElement($actore);
     }
 
     /**
-     * Get actor
+     * Get actores
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getActor()
+    public function getActores()
     {
-        return $this->actor;
+        return $this->actores;
     }
 }
 

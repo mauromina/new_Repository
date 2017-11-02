@@ -47,25 +47,32 @@ class Pelicula
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pais", inversedBy="peliculas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pelicula_pais_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
      * })
      */
-    private $pelicula_pais;
+    private $pais;
 
     /**
      * @var \AppBundle\Entity\Categoria
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categoria", inversedBy="peliculas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pelicula_categoria_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      * })
      */
-    private $pelicula_categoria;
+    private $categoria;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Idioma", inversedBy="peliculas")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Actor", mappedBy="peliculas")
+     */
+    private $actores;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Idioma", inversedBy="idiomas_audios")
      * @ORM\JoinTable(name="pelicula_idioma",
      *   joinColumns={
      *     @ORM\JoinColumn(name="pelicula_id", referencedColumnName="id", onDelete="CASCADE")
@@ -75,14 +82,23 @@ class Pelicula
      *   }
      * )
      */
-    private $pelicula_idioma;
+    private $audios;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Idioma", mappedBy="idiomas_subtitulos")
+     */
+    private $subtitulos;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->pelicula_idioma = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actores = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->audios = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subtitulos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -168,85 +184,153 @@ class Pelicula
     }
 
     /**
-     * Set peliculaPais
+     * Set pais
      *
-     * @param \AppBundle\Entity\Pais $peliculaPais
+     * @param \AppBundle\Entity\Pais $pais
      *
      * @return Pelicula
      */
-    public function setPeliculaPais(\AppBundle\Entity\Pais $peliculaPais = null)
+    public function setPais(\AppBundle\Entity\Pais $pais = null)
     {
-        $this->pelicula_pais = $peliculaPais;
+        $this->pais = $pais;
 
         return $this;
     }
 
     /**
-     * Get peliculaPais
+     * Get pais
      *
      * @return \AppBundle\Entity\Pais
      */
-    public function getPeliculaPais()
+    public function getPais()
     {
-        return $this->pelicula_pais;
+        return $this->pais;
     }
 
     /**
-     * Set peliculaCategoria
+     * Set categoria
      *
-     * @param \AppBundle\Entity\Categoria $peliculaCategoria
+     * @param \AppBundle\Entity\Categoria $categoria
      *
      * @return Pelicula
      */
-    public function setPeliculaCategoria(\AppBundle\Entity\Categoria $peliculaCategoria = null)
+    public function setCategoria(\AppBundle\Entity\Categoria $categoria = null)
     {
-        $this->pelicula_categoria = $peliculaCategoria;
+        $this->categoria = $categoria;
 
         return $this;
     }
 
     /**
-     * Get peliculaCategoria
+     * Get categoria
      *
      * @return \AppBundle\Entity\Categoria
      */
-    public function getPeliculaCategoria()
+    public function getCategoria()
     {
-        return $this->pelicula_categoria;
+        return $this->categoria;
     }
 
     /**
-     * Add peliculaIdioma
+     * Add actore
      *
-     * @param \AppBundle\Entity\Idioma $peliculaIdioma
+     * @param \AppBundle\Entity\Actor $actore
      *
      * @return Pelicula
      */
-    public function addPeliculaIdioma(\AppBundle\Entity\Idioma $peliculaIdioma)
+    public function addActore(\AppBundle\Entity\Actor $actore)
     {
-        $this->pelicula_idioma[] = $peliculaIdioma;
+        $this->actores[] = $actore;
 
         return $this;
     }
 
     /**
-     * Remove peliculaIdioma
+     * Remove actore
      *
-     * @param \AppBundle\Entity\Idioma $peliculaIdioma
+     * @param \AppBundle\Entity\Actor $actore
      */
-    public function removePeliculaIdioma(\AppBundle\Entity\Idioma $peliculaIdioma)
+    public function removeActore(\AppBundle\Entity\Actor $actore)
     {
-        $this->pelicula_idioma->removeElement($peliculaIdioma);
+        $this->actores->removeElement($actore);
     }
 
     /**
-     * Get peliculaIdioma
+     * Get actores
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPeliculaIdioma()
+    public function getActores()
     {
-        return $this->pelicula_idioma;
+        return $this->actores;
+    }
+
+    /**
+     * Add audio
+     *
+     * @param \AppBundle\Entity\Idioma $audio
+     *
+     * @return Pelicula
+     */
+    public function addAudio(\AppBundle\Entity\Idioma $audio)
+    {
+        $this->audios[] = $audio;
+
+        return $this;
+    }
+
+    /**
+     * Remove audio
+     *
+     * @param \AppBundle\Entity\Idioma $audio
+     */
+    public function removeAudio(\AppBundle\Entity\Idioma $audio)
+    {
+        $this->audios->removeElement($audio);
+    }
+
+    /**
+     * Get audios
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAudios()
+    {
+        return $this->audios;
+    }
+
+    /**
+     * Add subtitulo
+     *
+     * @param \AppBundle\Entity\Idioma $subtitulo
+     *
+     * @return Pelicula
+     */
+    public function addSubtitulo(\AppBundle\Entity\Idioma $subtitulo)
+    {
+        $this->subtitulos[] = $subtitulo;
+
+        return $this;
+    }
+
+    /**
+     * Remove subtitulo
+     *
+     * @param \AppBundle\Entity\Idioma $subtitulo
+     */
+    public function removeSubtitulo(\AppBundle\Entity\Idioma $subtitulo)
+    {
+        $this->subtitulos->removeElement($subtitulo);
+    }
+
+    /**
+     * Get subtitulos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubtitulos()
+    {
+        return $this->subtitulos;
     }
 }
 

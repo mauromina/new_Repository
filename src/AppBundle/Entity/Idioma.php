@@ -31,16 +31,32 @@ class Idioma
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="idiomas")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="audios")
      */
-    private $idiomas_peliculas;
+    private $idiomas_audios;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Pelicula", inversedBy="subtitulos")
+     * @ORM\JoinTable(name="idioma_pelicula",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="idioma_id", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="pelicula_id", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
+     */
+    private $idiomas_subtitulos;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->idiomas_peliculas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idiomas_audios = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idiomas_subtitulos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -78,37 +94,71 @@ class Idioma
     }
 
     /**
-     * Add idiomasPelicula
+     * Add idiomasAudio
      *
-     * @param \AppBundle\Entity\Pelicula $idiomasPelicula
+     * @param \AppBundle\Entity\Pelicula $idiomasAudio
      *
      * @return Idioma
      */
-    public function addIdiomasPelicula(\AppBundle\Entity\Pelicula $idiomasPelicula)
+    public function addIdiomasAudio(\AppBundle\Entity\Pelicula $idiomasAudio)
     {
-        $this->idiomas_peliculas[] = $idiomasPelicula;
+        $this->idiomas_audios[] = $idiomasAudio;
 
         return $this;
     }
 
     /**
-     * Remove idiomasPelicula
+     * Remove idiomasAudio
      *
-     * @param \AppBundle\Entity\Pelicula $idiomasPelicula
+     * @param \AppBundle\Entity\Pelicula $idiomasAudio
      */
-    public function removeIdiomasPelicula(\AppBundle\Entity\Pelicula $idiomasPelicula)
+    public function removeIdiomasAudio(\AppBundle\Entity\Pelicula $idiomasAudio)
     {
-        $this->idiomas_peliculas->removeElement($idiomasPelicula);
+        $this->idiomas_audios->removeElement($idiomasAudio);
     }
 
     /**
-     * Get idiomasPeliculas
+     * Get idiomasAudios
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdiomasPeliculas()
+    public function getIdiomasAudios()
     {
-        return $this->idiomas_peliculas;
+        return $this->idiomas_audios;
+    }
+
+    /**
+     * Add idiomasSubtitulo
+     *
+     * @param \AppBundle\Entity\Pelicula $idiomasSubtitulo
+     *
+     * @return Idioma
+     */
+    public function addIdiomasSubtitulo(\AppBundle\Entity\Pelicula $idiomasSubtitulo)
+    {
+        $this->idiomas_subtitulos[] = $idiomasSubtitulo;
+
+        return $this;
+    }
+
+    /**
+     * Remove idiomasSubtitulo
+     *
+     * @param \AppBundle\Entity\Pelicula $idiomasSubtitulo
+     */
+    public function removeIdiomasSubtitulo(\AppBundle\Entity\Pelicula $idiomasSubtitulo)
+    {
+        $this->idiomas_subtitulos->removeElement($idiomasSubtitulo);
+    }
+
+    /**
+     * Get idiomasSubtitulos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdiomasSubtitulos()
+    {
+        return $this->idiomas_subtitulos;
     }
 }
 

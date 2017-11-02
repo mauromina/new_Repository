@@ -33,14 +33,14 @@ class Categoria
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pelicula", mappedBy="categoria")
      */
-    private $pelicula;
+    private $peliculas;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->pelicula = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->peliculas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -86,7 +86,7 @@ class Categoria
      */
     public function addPelicula(\AppBundle\Entity\Pelicula $pelicula)
     {
-        $this->pelicula[] = $pelicula;
+        $this->peliculas[] = $pelicula;
 
         return $this;
     }
@@ -98,17 +98,17 @@ class Categoria
      */
     public function removePelicula(\AppBundle\Entity\Pelicula $pelicula)
     {
-        $this->pelicula->removeElement($pelicula);
+        $this->peliculas->removeElement($pelicula);
     }
 
     /**
-     * Get pelicula
+     * Get peliculas
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPelicula()
+    public function getPeliculas()
     {
-        return $this->pelicula;
+        return $this->peliculas;
     }
 }
 
